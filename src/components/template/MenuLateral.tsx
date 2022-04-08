@@ -1,8 +1,13 @@
 import { IconeAjuste, IconeBell, IconeHome, IconLogout } from "../icons"
 import MenuItem from "./MenuItem"
 import Logo from "./Logo"
-export default function MenuLateral(props){
-    return(
+import { useContext } from "react"
+import AppContext from "../../data/context/AppContext"
+export default function MenuLateral(props) {
+
+    const { menu, setMenu } = useContext(AppContext)
+
+    return (
         <aside className={`
             flex flex-col
             bg-gray-200 text-gray-900
@@ -13,13 +18,13 @@ export default function MenuLateral(props){
                 <Logo />
             </div>
             <ul className="flex-grow">
-                <MenuItem url="/" texto="Início" icone={IconeHome}/>
-                <MenuItem url="/ajustes" texto="Ajustes" icone={IconeAjuste}/>
-                <MenuItem url="/notificacoes" texto="Notificações" icone={IconeBell}/>
+                <MenuItem url="/" texto="Início" icone={IconeHome} />
+                {menu ? <MenuItem url="/ajustes" texto="Ajustes" icone={IconeAjuste} /> :
+                    <MenuItem url="/notificacoes" texto="Notificações" icone={IconeBell} />}
             </ul>
             <ul>
-                <MenuItem  texto="Sair" icone={IconLogout} onClick={()=> console.log('logout')}
-                className={`text-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer`}
+                <MenuItem texto="Sair" icone={IconLogout} onClick={() => console.log('logout')}
+                    className={`text-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer`}
                 />
             </ul>
         </aside>
