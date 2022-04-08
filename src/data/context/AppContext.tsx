@@ -1,19 +1,15 @@
-import { createContext, useState } from "react";
+import { createContext } from "react";
 
-
-const valorInicial = {menu: true, setMenu: (men: boolean)=>{}}
-
-const AppContext = createContext(valorInicial) 
+const AppContext = createContext({nome: null})
 
 export function AppProvider(props){
-   const [menu,setMenu] = useState(valorInicial.menu)
-    return(
+    return (
         <AppContext.Provider value={{
-            menu, setMenu
+            nome: 'Teste context Api'
         }}>
-            {props.children}
+        {props.children}
         </AppContext.Provider>
     )
 }
 
-export default AppContext   
+export default AppContext

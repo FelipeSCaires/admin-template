@@ -5,7 +5,7 @@ import { useContext } from "react"
 import AppContext from "../../data/context/AppContext"
 export default function MenuLateral(props) {
 
-    const { menu, setMenu } = useContext(AppContext)
+    // const { menu, setMenu } = useContext(AppContext)
 
     return (
         <aside className={`
@@ -19,8 +19,8 @@ export default function MenuLateral(props) {
             </div>
             <ul className="flex-grow">
                 <MenuItem url="/" texto="Início" icone={IconeHome} />
-                {menu ? <MenuItem url="/ajustes" texto="Ajustes" icone={IconeAjuste} /> :
-                    <MenuItem url="/notificacoes" texto="Notificações" icone={IconeBell} />}
+                 <MenuItem url="/ajustes" texto="Ajustes" icone={IconeAjuste} /> 
+                <MenuItem url="/notificacoes" texto="Notificações" icone={IconeBell} />
             </ul>
             <ul>
                 <MenuItem texto="Sair" icone={IconLogout} onClick={() => console.log('logout')}
