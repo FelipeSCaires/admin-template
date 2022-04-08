@@ -14,4 +14,3 @@ function MyApp({ Component, pageProps }) {
 
 }clearScreenDown
 git add <div className=""></div>
-export default MyApp
