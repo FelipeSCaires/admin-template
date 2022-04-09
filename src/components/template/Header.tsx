@@ -6,6 +6,7 @@ import Title from "./Title"
         
     }
     export default function Header(props: HeaderProps){
+        
         return (
             <div>
               <Title titulo={props.titulo} subtitulo={props.subtitulo}/>
