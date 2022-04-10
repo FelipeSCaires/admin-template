@@ -3,11 +3,13 @@ exports.__esModule = true;
 var react_1 = require("react");
 var AuthInput_1 = require("../components/auth/AuthInput");
 var icons_1 = require("../components/icons");
+var UseAuth_1 = require("../data/hook/UseAuth");
 function Autenticacao() {
-    var _a = react_1.useState('Login'), modo = _a[0], setModo = _a[1];
-    var _b = react_1.useState(null), erro = _b[0], setErro = _b[1];
-    var _c = react_1.useState(''), email = _c[0], setEmail = _c[1];
-    var _d = react_1.useState(''), senha = _d[0], setSenha = _d[1];
+    var _a = UseAuth_1["default"](), usuario = _a.usuario, loginGoogle = _a.loginGoogle;
+    var _b = react_1.useState('Login'), modo = _b[0], setModo = _b[1];
+    var _c = react_1.useState(null), erro = _c[0], setErro = _c[1];
+    var _d = react_1.useState(''), email = _d[0], setEmail = _d[1];
+    var _e = react_1.useState(''), senha = _e[0], setSenha = _e[1];
     function exibirErro(msg, tempo) {
         if (tempo === void 0) { tempo = 3; }
         setErro(msg);
@@ -33,7 +35,7 @@ function Autenticacao() {
             React.createElement(AuthInput_1["default"], { tipo: "password", label: "Senha", valor: senha, valorMudou: setSenha, obrigatorio: true }),
             React.createElement("button", { onClick: submeter, className: "\n                 w-full bg-indigo-500 hover:bg-indigo-400\n                 text-white rounded-lg px-4 py-3 mt-6\n             " }, modo === 'Login' ? 'Entrar' : 'Cadastrar'),
             React.createElement("hr", { className: "my-6 border-gray-300 w-full" }),
-            React.createElement("button", { onClick: submeter, className: "\n                 w-full bg-red-500 hover:bg-red-400\n                 text-white rounded-lg px-4 py-3 \n             " },
+            React.createElement("button", { onClick: loginGoogle, className: "\n                 w-full bg-red-500 hover:bg-red-400\n                 text-white rounded-lg px-4 py-3 \n             " },
                 modo === 'Login' ? 'Entrar' : 'Cadastrar',
                 " Com Google"),
             modo === 'Login' ? (React.createElement("p", { className: "mt-8" },
