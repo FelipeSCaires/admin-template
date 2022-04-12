@@ -40,6 +40,7 @@ exports.AuthProvider = void 0;
 var router_1 = require("next/router");
 var react_1 = require("react");
 var config_1 = require("../../firebase/config");
+var js_cookie_1 = require("js-cookie");
 var AuthContext = react_1.createContext({});
 function usuarioNormalizado(usuarioFirebase) {
     return __awaiter(this, void 0, Promise, function () {
@@ -61,29 +62,64 @@ function usuarioNormalizado(usuarioFirebase) {
         });
     });
 }
+function gerenciarCookie(logado) {
+    if (logado) {
+        js_cookie_1["default"].set('admin-template-auth', logado, {
+            expires: 7
+        });
+    }
+    else {
+        js_cookie_1["default"].remove('admin-template-auth');
+    }
+}
 function AuthProvider(props) {
-    var _a = react_1.useState(null), usuario = _a[0], setUsuario = _a[1];
+    var _a = react_1.useState(true), carregando = _a[0], setCarregando = _a[1];
+    var _b = react_1.useState(null), usuario = _b[0], setUsuario = _b[1];
+    function configurarSessao(usuarioFirebase) {
+        return __awaiter(this, void 0, void 0, function () {
+            var usuario_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(usuarioFirebase === null || usuarioFirebase === void 0 ? void 0 : usuarioFirebase.email)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, usuarioNormalizado(usuarioFirebase)];
+                    case 1:
+                        usuario_1 = _a.sent();
+                        setUsuario(usuario_1);
+                        gerenciarCookie(true);
+                        setCarregando(false);
+                        return [2 /*return*/, usuario_1.email];
+                    case 2:
+                        setUsuario(null);
+                        gerenciarCookie(false);
+                        setCarregando(false);
+                        return [2 /*return*/, false];
+                }
+            });
+        });
+    }
     function loginGoogle() {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var resp, usuario_1;
+            var resp;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, config_1["default"].auth().signInWithPopup(new config_1["default"].auth.GoogleAuthProvider())];
                     case 1:
                         resp = _b.sent();
-                        if (!((_a = resp.user) === null || _a === void 0 ? void 0 : _a.email)) return [3 /*break*/, 3];
-                        return [4 /*yield*/, usuarioNormalizado(resp.user)];
-                    case 2:
-                        usuario_1 = _b.sent();
-                        setUsuario(usuario_1);
-                        router_1["default"].push('/');
-                        _b.label = 3;
-                    case 3: return [2 /*return*/];
+                        if ((_a = resp.user) === null || _a === void 0 ? void 0 : _a.email) {
+                            configurarSessao(resp.user);
+                            router_1["default"].push('/');
+                        }
+                        return [2 /*return*/];
                 }
             });
         });
     }
+    react_1.useEffect(function () {
+        var cancelar = config_1["default"].auth().onIdTokenChanged(configurarSessao);
+        return function () { return cancelar(); };
+    }, []);
     return (React.createElement(AuthContext.Provider, { value: {
             usuario: usuario,
             loginGoogle: loginGoogle
